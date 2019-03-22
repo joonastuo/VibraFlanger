@@ -14,14 +14,50 @@
 //==============================================================================
 FlangerVibratoAudioProcessor::FlangerVibratoAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+	: AudioProcessor(BusesProperties()
+		#if ! JucePlugin_IsMidiEffect
+		#if ! JucePlugin_IsSynth
+		.withInput("Input", AudioChannelSet::stereo(), true)
+		#endif
+		.withOutput("Output", AudioChannelSet::stereo(), true)
+		#endif
+	),
+	mState(*this, nullptr, Identifier("VibraFlange"),
+		{
+			  std::make_unique<AudioParameterFloat>(IDs::time,
+													 "Time",
+													 0.0,
+													 7.0,
+													 1.0),
+			  std::make_unique<AudioParameterFloat>(IDs::wetness,
+													 "Mix",
+													 0.0,
+													 100.0,
+													 100.0),
+			  std::make_unique<AudioParameterFloat>(IDs::feedback,
+													 "Feedback",
+													 -99.0,
+													 99.0,
+													 0.0),
+			 std::make_unique<AudioParameterFloat>(IDs::lfoFreq,
+													 "LFO Freq",
+													 0.01,
+													 10.0,
+													 1.0),
+
+			 std::make_unique<AudioParameterFloat>(IDs::lfoPhase,
+													 "LFO Phase",
+													 0.0,
+													 360.0,
+													 180.0),
+
+			 std::make_unique<AudioParameterInt>(IDs::lfoWaveform,
+													 "LFO Waveform",
+													 0,
+													 3,
+													 0)
+		}),
+	mVibraFlange(mState)
 #endif
 {
 }
@@ -95,8 +131,11 @@ void FlangerVibratoAudioProcessor::changeProgramName (int index, const String& n
 //==============================================================================
 void FlangerVibratoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+	dsp::ProcessSpec spec;
+	spec.maximumBlockSize = samplesPerBlock;
+	spec.sampleRate = sampleRate;
+	spec.numChannels = getNumOutputChannels();
+	mVibraFlange.prepare(spec);
 }
 
 void FlangerVibratoAudioProcessor::releaseResources()
@@ -135,27 +174,10 @@ void FlangerVibratoAudioProcessor::processBlock (AudioBuffer<float>& buffer, Mid
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
+	mVibraFlange.process(buffer);
 }
 
 //==============================================================================
@@ -172,15 +194,23 @@ AudioProcessorEditor* FlangerVibratoAudioProcessor::createEditor()
 //==============================================================================
 void FlangerVibratoAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+	auto state = mState.copyState();
+	std::unique_ptr<XmlElement> xml(state.createXml());
+	copyXmlToBinary(*xml, destData);
 }
 
 void FlangerVibratoAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+
+	if (xmlState.get() != nullptr)
+		if (xmlState->hasTagName(mState.state.getType()))
+			mState.replaceState(ValueTree::fromXml(*xmlState));
+}
+
+AudioProcessorValueTreeState & FlangerVibratoAudioProcessor::getState()
+{
+	return mState;
 }
 
 //==============================================================================

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="kL41U8" name="FlangerVibrato" projectType="audioplug" jucerVersion="5.4.3">
+<JUCERPROJECT id="kL41U8" name="FlangerVibrato" projectType="audioplug" jucerVersion="5.4.3"
+              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3">
   <MAINGROUP id="I0JFwM" name="FlangerVibrato">
     <GROUP id="{0A7103EB-69BB-CC4B-89A8-78AD39A7FAB7}" name="Source">
       <FILE id="WkLELw" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -10,6 +11,17 @@
       <FILE id="LjjwFo" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="iEnEp5" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <GROUP id="{6019FD44-4DC0-4A85-3E70-82C6B80EC7E2}" name="LookAndFeel"/>
+      <GROUP id="{B9C142B5-4868-CE0C-A3D8-D96FF7053358}" name="Helper">
+        <FILE id="UXzOSs" name="Identifiers.h" compile="0" resource="0" file="Source/Helper/Identifiers.h"/>
+      </GROUP>
+      <GROUP id="{B7C5CC46-CF1E-43C2-564A-D93C1C1684E1}" name="AudioDSP">
+        <FILE id="lj1Zuu" name="DelayLine.h" compile="0" resource="0" file="Source/AudioDSP/DelayLine.h"/>
+        <FILE id="PUqBnf" name="LFO.cpp" compile="1" resource="0" file="Source/AudioDSP/LFO.cpp"/>
+        <FILE id="cVBodv" name="LFO.h" compile="0" resource="0" file="Source/AudioDSP/LFO.h"/>
+        <FILE id="ypUc5X" name="VibraFlange.cpp" compile="1" resource="0" file="Source/AudioDSP/VibraFlange.cpp"/>
+        <FILE id="eQqyy8" name="VibraFlange.h" compile="0" resource="0" file="Source/AudioDSP/VibraFlange.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
@@ -33,6 +45,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2017 targetFolder="Builds/VisualStudio2017">
@@ -55,6 +68,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2017>
   </EXPORTFORMATS>
@@ -69,6 +83,7 @@
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
