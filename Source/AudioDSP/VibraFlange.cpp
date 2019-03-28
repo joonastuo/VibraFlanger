@@ -120,8 +120,10 @@ void VibraFlange::process(AudioBuffer<float>& buffer)
 	const float* leftInput  = buffer.getReadPointer(0);
 	const float* rightInput = buffer.getReadPointer(0);
 
+	// If stereo input
 	if (buffer.getNumChannels() == 2)
 		rightInput = buffer.getReadPointer(1);
+	// Effect works only on mono or stereo
 	else if (buffer.getNumChannels() > 2)
 		return;
 
