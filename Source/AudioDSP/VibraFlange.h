@@ -26,11 +26,20 @@ public:
 	void process(AudioBuffer<float>& buffer);
 private:
 	// Methods
+	void modDelay(const float* input, float* output, const int& channel);
+	void update();
 	float linearInterp(const float& y0, const float& yp1, const float& frac);
+	float getFeedback();
+	float getWetness();
+	float getTime();
+	float getLfoFreq();
+	float getLfoPhase();
+	int   getLfoWaveform();
+	bool  getEffectOn();
 
 	// Variables
 	AudioProcessorValueTreeState& mState;
-
+	// Initialise values for two delay lines
 	std::array<DelayLine<float>, 2> delayLines;
 	std::array<LFO, 2> mLFOs;
 	std::array<SmoothedValue<float>, 2> mSmoothG;
@@ -41,4 +50,7 @@ private:
 	int mSamplesPerBlock = 512;
 	int mDelayBufferLen = 0;
 	int mNumChannels = 2;
+	float mDelayTimeDepth = 0.f;
+	bool transitionToOnOff = true;
+	bool transitionToOffOn = false;
 };

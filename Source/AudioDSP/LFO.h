@@ -15,6 +15,14 @@
 //==============================================================================
 /*
 */
+enum Waveforms
+{
+	sine,	// 0
+	saw,	// 1
+	tri,	// 2
+	square	// 3
+};
+
 class LFO
 {
 public:
@@ -22,6 +30,7 @@ public:
     ~LFO();
 	void prepare(dsp::ProcessSpec spec);
 	float getValue();
+	float getValueAndAdvance();
 	void setFreq(const float& freq);
 	void setUnipolar(const bool& isUnipolar);
 	void setWaveform(const int& waveform);
@@ -29,14 +38,6 @@ public:
 	void advanceBlock();
 	float linearInterp(const float& y0, const float& yp1, const float& frac);
 	void setPhase(const float& phase);
-
-	enum Waveforms
-	{
-		sine,	// 0
-		saw,	// 1
-		tri,	// 2
-		square	// 3
-	};
 
 private:
 	float mReadIndex = 0.f;

@@ -20,6 +20,7 @@ namespace IDs {
 	DECLARE_ID(lfoFreq)		// LFO frequency (0.01 - 10 Hz)
 	DECLARE_ID(lfoPhase)	// LFO phase (0 - 360 degrees)
 	DECLARE_ID(lfoWaveform) // LFO waveform (sine, rectified sine, saw, tri, sqare)
+	DECLARE_ID(onOff)		// effect on / off
 
 	#undef DECLARE_ID
 }

@@ -143,6 +143,13 @@ float LFO::getValue()
 	return LFOVal;
 }
 
+float LFO::getValueAndAdvance()
+{
+	float value = getValue();
+	advanceSamples(1);
+	return value;
+}
+
 void LFO::setFreq(const float & freq)
 {
 	mInc = 1024.f * (freq / mSampleRate);

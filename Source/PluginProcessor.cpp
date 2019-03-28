@@ -10,6 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <functional>
 
 //==============================================================================
 FlangerVibratoAudioProcessor::FlangerVibratoAudioProcessor()
@@ -28,42 +29,55 @@ FlangerVibratoAudioProcessor::FlangerVibratoAudioProcessor()
 													 "Time",
 													 0.0,
 													 7.0,
-													 1.0),
+													 1.0
+													),
 			  std::make_unique<AudioParameterFloat>(IDs::wetness,
 													 "Mix",
 													 0.0,
 													 100.0,
-													 100.0),
+													 100.0
+													),
 			  std::make_unique<AudioParameterFloat>(IDs::feedback,
 													 "Feedback",
 													 -99.0,
 													 99.0,
-													 0.0),
+													 0.0
+													),
 			 std::make_unique<AudioParameterFloat>(IDs::lfoFreq,
-													 "LFO Freq",
-													 0.01,
-													 10.0,
-													 1.0),
-
+												   "LFO Freq",
+												   NormalisableRange<float> (0.0, 100.0),
+												   40.0,
+												   String(),
+												   AudioProcessorParameter::genericParameter,
+												   [](float value, int maxStringLength) {return static_cast<String>(round(0.01f * exp(0.06908f * value) * 100.f) / 100.f); },
+												   [](const String& text) {return log(100 * text.getFloatValue()) / 0.06908; }
+												   ),
 			 std::make_unique<AudioParameterFloat>(IDs::lfoPhase,
 													 "LFO Phase",
 													 0.0,
 													 360.0,
-													 180.0),
-
+													 180.0
+													),
 			 std::make_unique<AudioParameterInt>(IDs::lfoWaveform,
 													 "LFO Waveform",
 													 0,
 													 3,
-													 0)
+													 0
+												 ),
+			 std::make_unique<AudioParameterBool>(IDs::onOff,
+													 "On/Off",
+													 true
+												  )
 		}),
 	mVibraFlange(mState)
 #endif
 {
+	// Empty constructor
 }
 
 FlangerVibratoAudioProcessor::~FlangerVibratoAudioProcessor()
 {
+	// Emty destructor
 }
 
 //==============================================================================
