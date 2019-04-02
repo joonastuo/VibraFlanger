@@ -59,7 +59,7 @@ public:
 		String text = label.getText();
 		int width = label.getWidth();
 		int height = label.getHeight();
-		g.setFont(Font("Pacifico", height, Font::plain));
+		g.setFont(Font(height - 2, Font::plain));
 		g.drawFittedText(text, 0, 0, width, height, Justification::centred, 1);
 	}
 };

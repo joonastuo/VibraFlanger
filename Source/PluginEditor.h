@@ -28,7 +28,6 @@ public:
 
     //==============================================================================
     void paint (Graphics&) override;
-	void paintFrontPanel(Graphics& g);
     void resized() override;
 
 private:
@@ -45,17 +44,20 @@ private:
 	typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
 
 	// Comopnent look and size parameters
-	const int mSliderSize = 80;
-	const int mLabelHeight = 24;
-	const int mTextBoxHeight = 22;
+	const int mSliderSize    = 80;
+	const int mLabelHeight   = 16;
+	const int mTextBoxHeight = 14;
 	const int mReductionSize = 20;
-	const int mTitlePanel = 50.f;
-	const int mOnOffSize = 18.f;
+	const int mTitlePanel    = 50.f;
+	const int mOnOffSize     = 18.f;
 	const int mVibraFlangeDialWidth = 120;
+	const int mTitleHeight = 60;
 
-	Font mLabelFont = Font("Pacifico", mLabelHeight, Font::plain);
+	Font mLabelFont = Font(mLabelHeight, Font::plain);
 	Colour mLFOColour = Colours::lightblue;
-
+	String mTitleText = "VibraFlange";
+	Font mTitleFont = Font(30.f, Font::plain);
+	
 	// LookAndFeel
 	CustomLookAndFeel mCustomLookAndFeel;
 	VibraFlangeSliderLookAndFeel mVibraFlangeLookAndFeel;

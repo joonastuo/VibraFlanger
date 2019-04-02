@@ -39,7 +39,7 @@ public:
 
 
 		// Draw path of slider foreground (in white)
-		g.setColour(Colours::skyblue.brighter(.2f));
+		g.setColour(Colours::skyblue);
 		Path foregroundArc;
 		foregroundArc.addCentredArc(centreX, centreY, radius, radius, 0.0f, rotaryStartAngle, angle, true);
 		g.strokePath(foregroundArc, PathStrokeType(3.f, PathStrokeType::curved, PathStrokeType::rounded));
@@ -55,7 +55,7 @@ public:
 
 		// Draw slider value
 		//g.setFont(14);
-		g.setFont(Font("Pacifico", 22.f, Font::plain));
+		g.setFont(Font(14.f, Font::plain));
 		String flange = "Flange";
 		String vibra  = "Vibra";
 		String boring = "Lame";

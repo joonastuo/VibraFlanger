@@ -26,7 +26,7 @@ FlangerVibratoAudioProcessorEditor::FlangerVibratoAudioProcessorEditor (FlangerV
 //==============================================================================
 FlangerVibratoAudioProcessorEditor::~FlangerVibratoAudioProcessorEditor()
 {
-	mOnOffButton.setLookAndFeel(nullptr);
+	 mOnOffButton.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -36,53 +36,10 @@ void FlangerVibratoAudioProcessorEditor::paint (Graphics& g)
 	Colour backgroundColour = getLookAndFeel().findColour(ResizableWindow::backgroundColourId);
     g.fillAll (backgroundColour);
 
-	// Paint the front panel of the plugin
-	paintFrontPanel(g);
-
-	// Rounded rectangles around the controls
-	g.setColour(backgroundColour.darker(.8));
-	// Upmost
-	g.drawRoundedRectangle(10, 10, getWidth() - 20, mTitlePanel - 10.f, 10.f, 3.f);
-	auto boxHeight = (getHeight() - mTitlePanel - 20.f) / 2.f - 5.f;
-	// Middle
-	g.drawRoundedRectangle(10.f, 10.f + mTitlePanel, getWidth() - 20.f, boxHeight, 10.f, 3.f);
-	g.setColour(mLFOColour);
-	// Low
-	g.drawRoundedRectangle(10.f, 10.f + mTitlePanel + boxHeight + 10.f, getWidth() - 20.f, boxHeight, 10.f, 3.f);
-}
-
-void FlangerVibratoAudioProcessorEditor::paintFrontPanel(Graphics & g)
-{
-	// Title
-	g.setFont(Font("Pacifico", 40.f, Font::plain));
-	String text = "VibraFlange";
-	
-	bool on = *mState.getRawParameterValue(IDs::onOff);
-	if (on)
-		g.setColour(Colours::skyblue.brighter(.2f));
-	else
-		g.setColour(Colours::skyblue.darker(.5f));
-
-	g.drawFittedText(text, getWidth() / 2 - 100.f , 6.f, 200.f, 40.f, Justification::centred, 1);
-
-	g.setColour(Colours::skyblue);
-	// Highest line
-	g.drawLine(20.f, 20.f, 100.f, 20.f, 2.f);
-	g.drawLine(135.f, 20.f, 152.f, 20.f, 2.f);
-	g.drawLine(184.f, 20.f, 269.f, 20.f, 2.f);
-	g.drawLine(289.f, 20.f, 300.f, 20.f, 2.f);
-
-	// Middle line
-	g.drawLine(20.f, 30.f, 100.f, 30.f, 2.f);
-	g.drawLine(225.f, 30.f, 267.f, 30.f, 2.f);
-	g.drawLine(291.f, 30.f, 300.f, 30.f, 2.f);
-
-	// Lowest line
-	g.drawLine(20.f, 40.f, 200.f, 40.f, 2.f);
-	g.drawLine(210.f, 40.f, 300.f, 40.f, 2.f);
-
-	// On / off button besides the title
-	mOnOffButton.setBounds(getWidth() - 50.f, 18.f, mOnOffSize, mOnOffSize);
+	auto area = getLocalBounds();
+	auto titleArea = area.removeFromBottom(mTitleHeight);
+	// Set on / off button bounds
+	mOnOffButton.setBounds(getWidth() / 2.f - 60.f, titleArea.getCentreY() - 30.f, 120.f, 40.f);
 }
 
 //==============================================================================
@@ -197,7 +154,7 @@ void FlangerVibratoAudioProcessorEditor::resized()
 		});
 	
 	auto area = getLocalBounds().reduced(mReductionSize, mReductionSize);
-	area.removeFromTop(mTitlePanel);
+	area.removeFromBottom(mTitleHeight);
 	masterBox.performLayout(area.toFloat());
 }
 
@@ -206,7 +163,9 @@ void FlangerVibratoAudioProcessorEditor::initialiseGUI()
 {
 	// ON / OFF ================================
 	mOnOffButton.setLookAndFeel(&mOnOffLookAndFeel);
-	mOnOffButton.setSize(25.f, 25.f);
+	mOnOffButton.setSize(100.f, 30.f);
+	mOnOffButton.setColour(TextButton::textColourOffId, Colours::white.darker(1));
+	mOnOffButton.setButtonText("VibraFlange");
 	mOnOffButton.addListener(this);
 	bool on = *mState.getRawParameterValue(IDs::onOff);
 	mOnOffButton.setToggleState(on, false);
