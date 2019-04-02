@@ -23,27 +23,24 @@ public:
 	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override
 	{
 		// Button width and height
-		float width = button.getWidth();
-		float height = button.getHeight();
-		
-		float radius = width / 2.f - 1.f;
-		float centreX = width / 2.f;
-		float centreY = height / 2.f;
-		float startAngle = 40.f;
-		float endAngle = 360.f - startAngle;
-
-		float startRad = startAngle * (M_PI / 180.f);
-		float endRad = endAngle * (M_PI / 180.f);
-
+		auto area = button.getLocalBounds();
+		Colour myColour = findColour(0x1005700);
 		if (button.getToggleState())
-			g.setColour(Colours::skyblue.brighter(.5f));
+		{
+			button.setColour(TextButton::buttonColourId, Colours::white);
+			myColour = myColour.darker(.4f);
+		}
 		else
-			g.setColour(Colours::skyblue.darker(0.5f));
-
-		g.drawLine(width / 2.f, 0.f, width / 2.f, radius + 1.f, 2.f);
-
-		Path p;
-		p.addCentredArc(centreX, centreY, radius, radius, 0.0f, startRad, endRad, true);
-		g.strokePath(p, PathStrokeType(2.f, PathStrokeType::curved, PathStrokeType::rounded));
+		{
+			myColour = myColour.darker(1);
+		}
+		
+		g.setColour(myColour);
+		g.fillRoundedRectangle(area.toFloat(), 18.f);
+		
+	}
+	Font getTextButtonFont(TextButton&, int buttonHeight)
+	{
+		return Font(20);
 	}
 };
