@@ -90,17 +90,20 @@ LFO::LFO()
 	}
 }
 
+//==============================================================================
 LFO::~LFO()
 {
 	// Empty destructor
 }
 
+//==============================================================================
 void LFO::prepare(dsp::ProcessSpec spec)
 {
 	mSampleRate = spec.sampleRate;
 	mSamplesPerBlock = spec.maximumBlockSize;
 }
 
+//==============================================================================
 float LFO::getValue()
 {
 	float readIndex = mReadIndex + 1024.f * (mPhase / 360.f);
@@ -143,6 +146,7 @@ float LFO::getValue()
 	return LFOVal;
 }
 
+//==============================================================================
 float LFO::getValueAndAdvance()
 {
 	float value = getValue();
@@ -150,21 +154,25 @@ float LFO::getValueAndAdvance()
 	return value;
 }
 
+//==============================================================================
 void LFO::setFreq(const float & freq)
 {
 	mInc = 1024.f * (freq / mSampleRate);
 }
 
+//==============================================================================
 void LFO::setUnipolar(const bool & isUnipolar)
 {
 	mUnipolar = isUnipolar;
 }
 
+//==============================================================================
 void LFO::setWaveform(const int & waveform)
 {
 	mWaveform = waveform;
 }
 
+//==============================================================================
 void LFO::advanceSamples(const int & numSamples)
 {
 	mReadIndex += (mInc * numSamples);
@@ -172,6 +180,7 @@ void LFO::advanceSamples(const int & numSamples)
 		mReadIndex = mReadIndex - 1024;
 }
 
+//==============================================================================
 void LFO::advanceBlock()
 {
 	mReadIndex += (mInc * mSamplesPerBlock);
@@ -179,11 +188,13 @@ void LFO::advanceBlock()
 		mReadIndex = mReadIndex - 1024;
 }
 
+//==============================================================================
 float LFO::linearInterp(const float & y0, const float & yp1, const float & frac)
 {
 	return y0 * (1 - frac) + yp1  * frac;
 }
 
+//==============================================================================
 void LFO::setPhase(const float & phase)
 {
 	mPhase = phase;

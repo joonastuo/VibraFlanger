@@ -219,15 +219,13 @@ float VibraFlange::linearInterp(const float& y0, const float& yp1, const float& 
 //==============================================================================
 float VibraFlange::getFeedback()
 {
-	float feedbackPercentage = *mState.getRawParameterValue(IDs::feedback);
-	return feedbackPercentage / 100.f;
+	return *mState.getRawParameterValue(IDs::feedback);
 }
 
 //==============================================================================
 float VibraFlange::getWetness()
 {
-	float wetnessPercentage = *mState.getRawParameterValue(IDs::wetness);
-	return wetnessPercentage / 100.f;
+	return *mState.getRawParameterValue(IDs::wetness);
 }
 
 //==============================================================================
