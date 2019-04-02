@@ -36,11 +36,11 @@ public:
 		}
 		
 		g.setColour(myColour);
-		g.fillRoundedRectangle(area.toFloat(), 18.f);
+		g.fillRoundedRectangle(area.toFloat(), 22.f);
 		
 	}
 	Font getTextButtonFont(TextButton&, int buttonHeight)
 	{
-		return Font(20);
+		return Font(24, Font::bold);
 	}
 };

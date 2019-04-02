@@ -39,7 +39,7 @@ void FlangerVibratoAudioProcessorEditor::paint (Graphics& g)
 	auto area = getLocalBounds();
 	auto titleArea = area.removeFromBottom(mTitleHeight);
 	// Set on / off button bounds
-	mOnOffButton.setBounds(getWidth() / 2.f - 60.f, titleArea.getCentreY() - 30.f, 120.f, 40.f);
+	mOnOffButton.setBounds(getWidth() / 2.f - 80.f, titleArea.getCentreY() - 30.f, 160.f, 45.f);
 }
 
 //==============================================================================
