@@ -1,4 +1,4 @@
-# FlangerVibrato
+# VibraFlange
 Flanger / Vibrato -effect plugin made with JUCE.
 
 <p align="left">
