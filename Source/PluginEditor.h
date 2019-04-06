@@ -58,7 +58,7 @@ private:
 	Font mLabelFont = Font(static_cast<float>(mLabelHeight), Font::plain);
 	Colour mLFOColour = Colours::lightblue;
 	String mTitleText = "VibraFlange";
-	Font mTitleFont = Font(30.f, Font::plain);
+	Font mTitleFont = Font(30.f, Font::bold);
 	
 	// LookAndFeel
 	CustomLookAndFeel mCustomLookAndFeel;
