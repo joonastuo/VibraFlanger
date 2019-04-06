@@ -39,7 +39,7 @@ public:
 		g.fillRoundedRectangle(area.toFloat(), 22.f);
 		
 	}
-	Font getTextButtonFont(TextButton&, int)
+	Font getTextButtonFont(TextButton&, int) override
 	{
 		return Font(24, Font::bold);
 	}

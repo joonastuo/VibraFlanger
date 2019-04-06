@@ -180,7 +180,7 @@ void FlangerVibratoAudioProcessorEditor::initialiseGUI()
 	mOnOffButton.setButtonText("VibraFlange");
 	mOnOffButton.addListener(this);
 	bool on = *mState.getRawParameterValue(IDs::onOff);
-	mOnOffButton.setToggleState(on, false);
+	mOnOffButton.setToggleState(on, dontSendNotification);
 	addAndMakeVisible(mOnOffButton);
 	mOnOffAttachment.reset(new ButtonAttachment(mState, IDs::onOff, mOnOffButton));
 
@@ -291,7 +291,7 @@ void FlangerVibratoAudioProcessorEditor::buttonClicked(Button * b)
 	{
 		bool on = *mState.getRawParameterValue(IDs::onOff);
 		float* value = mState.getRawParameterValue(IDs::onOff);
-		mOnOffButton.setToggleState((on ? false : true), false);
+		mOnOffButton.setToggleState((on ? false : true), dontSendNotification);
 		*value = (on ? false : true);
 		repaint();
 	}
