@@ -33,7 +33,7 @@ void VibraFlange::prepare(dsp::ProcessSpec spec)
 	mNumChannels     = spec.numChannels;
 
 	// Prepare delay lines
-	mDelayBufferLen  = 2 * (mSampleRate + mSamplesPerBlock);
+	mDelayBufferLen  = static_cast<int>(2 * (mSampleRate + mSamplesPerBlock));
 
 	for (auto& dline : delayLines)
 	{
@@ -156,7 +156,7 @@ void VibraFlange::modDelay(const float * input, float * output, const int& dline
 		// Get delay amount
 		float delayTime = mDelayTimeDepth * lfo.getValue();
 		lfo.advanceSamples(1);
-		float delayInSamplesFrac = mSampleRate * (delayTime / 1000.f);
+		float delayInSamplesFrac = static_cast<float>(mSampleRate * (delayTime / 1000.f));
 		int delayInSamplesInt = static_cast<int> (delayInSamplesFrac);
 		float delayFrac = delayInSamplesFrac - delayInSamplesInt;
 
@@ -201,9 +201,9 @@ void VibraFlange::update()
 	// Set gain values ==============================
 	for (int dline = 0; dline < 2; ++dline)
 	{
-		mSmoothFB[dline].setValue(FB);
-		mSmoothW[dline] .setValue(W);
-		mSmoothG[dline] .setValue(G);
+		mSmoothFB[dline].setTargetValue(FB);
+		mSmoothW[dline] .setTargetValue(W);
+		mSmoothG[dline] .setTargetValue(G);
 		mLFOs[dline].setFreq(lfoFreq);
 		mLFOs[dline].setWaveform(waveform);
 	}
@@ -238,7 +238,7 @@ float VibraFlange::getTime()
 float VibraFlange::getLfoFreq()
 {
 	float lfoFreqPercentage = *mState.getRawParameterValue(IDs::lfoFreq);
-	return 0.01f * exp(lfoFreqPercentage * 0.06908);
+	return 0.01f * static_cast<float>(exp(lfoFreqPercentage * 0.06908));
 }
 
 //==============================================================================
@@ -250,7 +250,7 @@ float VibraFlange::getLfoPhase()
 //==============================================================================
 int VibraFlange::getLfoWaveform()
 {
-	return *mState.getRawParameterValue(IDs::lfoWaveform);
+	return static_cast<int>(*mState.getRawParameterValue(IDs::lfoWaveform));
 }
 
 //==============================================================================

@@ -15,7 +15,7 @@ class VibraFlangeSliderLookAndFeel : public LookAndFeel_V4
 {
 public:
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
-		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider&) override
 	{
 		// Radius of knob
 		auto radius = jmin(width / 2, height / 2) - 16.0f;
@@ -23,9 +23,6 @@ public:
 		auto centreX = x + width * 0.5f;
 		auto centreY = y + 20.f + radius + 2.f;
 
-		auto rx = centreX - radius;
-		auto ry = centreY - radius;
-		auto rw = radius * 2.0f;
 		// current angle of the slider
 		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
@@ -59,8 +56,8 @@ public:
 		String flange = "Flange";
 		String vibra  = "Vibra";
 		String boring = "Lame";
-		g.drawFittedText(flange, centreX - width / 2.f, 0.f, width, 14.f, Justification::centred, 1);
-		g.drawFittedText(boring, 0.0, height - 10.f, 60.f, 10.f, Justification::centred, 1);
-		g.drawFittedText(vibra, width - 45.f, height - 10.f, 45.f, 10.f, Justification::left, 1);
+		g.drawFittedText(flange, static_cast<int>(centreX - width / 2.f), 0, width, 14, Justification::centred, 1);
+		g.drawFittedText(boring, 0, height - 10, 60, 10, Justification::centred, 1);
+		g.drawFittedText(vibra, width - 45, height - 10, 45, 10, Justification::left, 1);
 	}
 };
