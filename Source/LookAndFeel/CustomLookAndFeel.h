@@ -14,7 +14,7 @@ class CustomLookAndFeel : public LookAndFeel_V4
 {
 public:
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
-		const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override
+		const float rotaryStartAngle, const float rotaryEndAngle, Slider&) override
 	{
 		// Radius of knob
 		auto radius = jmin(width / 2, height / 2) - 5.0f;
@@ -22,9 +22,6 @@ public:
 		auto centreX = x + width * 0.5f;
 		auto centreY = y + radius + 12.f;
 
-		auto rx = centreX - radius;
-		auto ry = centreY - radius;
-		auto rw = radius * 2.0f;
 		// current angle of the slider
 		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
@@ -59,7 +56,7 @@ public:
 		String text = label.getText();
 		int width = label.getWidth();
 		int height = label.getHeight();
-		g.setFont(Font(height - 2, Font::plain));
+		g.setFont(Font(height - 2.f, Font::plain));
 		g.drawFittedText(text, 0, 0, width, height, Justification::centred, 1);
 	}
 };

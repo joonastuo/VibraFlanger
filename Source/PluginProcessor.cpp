@@ -33,29 +33,29 @@ FlangerVibratoAudioProcessor::FlangerVibratoAudioProcessor()
 													),
 			  std::make_unique<AudioParameterFloat>(IDs::wetness,
 													 "Mix",
-												   NormalisableRange<float> (0.00, 1.0),
+												   NormalisableRange<float> (0.f, 1.f),
 												   0.5,
 												   String(),
 												   AudioProcessorParameter::genericParameter,
-												   [](float value, int maxStringLength) {return static_cast<String>(round(value * 100.f * 100.f) / 100.f); },
+												   [](float value, int) {return static_cast<String>(round(value * 100.f * 100.f) / 100.f); },
 												   [](const String& text) {return round(text.getFloatValue() / 100.f * 100.f) / 100.f; }
 													),
 			  std::make_unique<AudioParameterFloat>(IDs::feedback,
 													 "Feedback",
-												   NormalisableRange<float> (-0.99, 0.99),
+												   NormalisableRange<float> (-0.99f, 0.99f),
 												   0.0,
 												   String(),
 												   AudioProcessorParameter::genericParameter,
-												   [](float value, int maxStringLength) {return static_cast<String>(round(value * 100.f * 100.f) / 100.f); },
+												   [](float value, int) {return static_cast<String>(round(value * 100.f * 100.f) / 100.f); },
 												   [](const String& text) {return round(text.getFloatValue() / 100.f * 100.f) / 100.f; }
 													),
 			 std::make_unique<AudioParameterFloat>(IDs::lfoFreq,
 												   "LFO Freq",
-												   NormalisableRange<float> (0.0, 100.0),
+												   NormalisableRange<float> (0., 100.f),
 												   40.0,
 												   String(),
 												   AudioProcessorParameter::genericParameter,
-												   [](float value, int maxStringLength) {return static_cast<String>(round(0.01f * exp(0.06908f * value) * 100.f) / 100.f); },
+												   [](float value, int) {return static_cast<String>(round(0.01f * exp(0.06908f * value) * 100.f) / 100.f); },
 												   [](const String& text) {return log(100 * text.getFloatValue()) / 0.06908; }
 												   ),
 			 std::make_unique<AudioParameterFloat>(IDs::lfoPhase,
@@ -154,7 +154,7 @@ void FlangerVibratoAudioProcessor::prepareToPlay (double sampleRate, int samples
 	dsp::ProcessSpec spec;
 	spec.maximumBlockSize = samplesPerBlock;
 	spec.sampleRate = sampleRate;
-	spec.numChannels = getNumOutputChannels();
+	spec.numChannels = getTotalNumInputChannels();
 	mVibraFlange.prepare(spec);
 }
 

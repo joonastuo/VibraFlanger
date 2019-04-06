@@ -31,19 +31,11 @@ LFO::LFO()
 	float mtf2 = -2.f / 512.f;
 	float btf2  = 1.f;
 
-	// Sawtooth
-	// Rising edge 1
-	float ms1 = 1.f / 512.f;
-	float bs1 = 0.f;
-
-	// Risign edge 2
-	float ms2 =  1.f / 512.f;
-	float bs2 = -1.f;
 
 	for (auto i = 0; i < 1024; ++i)
 	{
 		// Sin
-		mSinArray[i] = sin((static_cast<float> (i) / 1024.f) * (2 * M_PI));
+		mSinArray[i] = static_cast<float>(sin((static_cast<double> (i) / 1024.0) * (2.0 * M_PI)));
 
 		// Triangle
 		if (i < 256)
@@ -59,14 +51,14 @@ LFO::LFO()
 
 		for (int g = 1; g <= 30; ++g)
 		{
-			float n = static_cast<float> (g);
-			mSawtoothArray[i] += pow(-1.f, static_cast<float>(g + 1)) * (1.f / n) * sin(2.f * M_PI * i * n / 1024.f);
+			double n = static_cast<double> (g);
+			mSawtoothArray[i] += static_cast<float>(pow(-1.0, static_cast<float>(g + 1.0)) * (1.0 / n) * sin(2.0 * M_PI * i * n / 1024.0));
 		}
 
 		for (int g = 1; g <= 29; g+=2)
 		{
-			float n = static_cast<float> (g);
-			mSquareArray[i] += (1.f / n) * sin(2.f * M_PI * i * n / 1024.f);
+			double n = static_cast<double> (g);
+			mSquareArray[i] += static_cast<float>((1.0 / n) * sin(2.0 * M_PI * i * n / 1024.0));
 		}
 		if (i == 0)
 		{
@@ -99,8 +91,8 @@ LFO::~LFO()
 //==============================================================================
 void LFO::prepare(dsp::ProcessSpec spec)
 {
-	mSampleRate = spec.sampleRate;
-	mSamplesPerBlock = spec.maximumBlockSize;
+	mSampleRate = static_cast<float>(spec.sampleRate);
+	mSamplesPerBlock = static_cast<float>(spec.maximumBlockSize);
 }
 
 //==============================================================================
@@ -111,7 +103,7 @@ float LFO::getValue()
 		readIndex = readIndex - 1024.f;
 
 	float LFOVal = 0.f;
-	int readIndexInt = floor(readIndex);
+	int readIndexInt = static_cast<int>(readIndex);
 	float frac = readIndex - readIndexInt;
 	int readIndexNext = readIndexInt + 1 > 1023 ? 0 : readIndexInt + 1;
 

@@ -20,7 +20,7 @@
 class OnOffButtonLookAndFeel : public LookAndFeel_V4
 {
 public:
-	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour, bool isMouseOverButton, bool isButtonDown) override
+	void drawButtonBackground(Graphics& g, Button& button, const Colour&, bool, bool) override
 	{
 		// Button width and height
 		auto area = button.getLocalBounds();
@@ -39,7 +39,7 @@ public:
 		g.fillRoundedRectangle(area.toFloat(), 18.f);
 		
 	}
-	Font getTextButtonFont(TextButton&, int buttonHeight)
+	Font getTextButtonFont(TextButton&, int)
 	{
 		return Font(20);
 	}

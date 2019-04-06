@@ -39,7 +39,7 @@ void FlangerVibratoAudioProcessorEditor::paint (Graphics& g)
 	auto area = getLocalBounds();
 	auto titleArea = area.removeFromBottom(mTitleHeight);
 	// Set on / off button bounds
-	mOnOffButton.setBounds(getWidth() / 2.f - 60.f, titleArea.getCentreY() - 30.f, 120.f, 40.f);
+	mOnOffButton.setBounds(static_cast<int>(getWidth() / 2.f - 60.f), titleArea.getCentreY() - 30, 120, 40);
 }
 
 //==============================================================================
@@ -52,8 +52,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	delayBox.flexDirection = FlexBox::Direction::column;
 	delayBox.items.addArray(
 		{
-		FlexItem(mDelayLabel).withWidth(mSliderSize).withHeight(mLabelHeight),
-		FlexItem(mDelaySlider).withWidth(mSliderSize).withHeight(mSliderSize)
+		createItem(mDelayLabel, mSliderSize, mLabelHeight),
+		createItem(mDelaySlider, mSliderSize, mSliderSize)
 		});
 
 	// WETNESS ===========================
@@ -63,7 +63,7 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	wetBox.flexDirection = FlexBox::Direction::column;
 	wetBox.items.addArray(
 		{
-		FlexItem(mMixSlider).withWidth(mVibraFlangeDialWidth).withHeight(mSliderSize - 5.f)
+		createItem(mMixSlider, mVibraFlangeDialWidth, mSliderSize - 5)
 		});
 
 	// FEEDBACK ===========================
@@ -73,8 +73,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	feedbackBox.flexDirection = FlexBox::Direction::column;
 	feedbackBox.items.addArray(
 		{
-		FlexItem(mFBLabel).withWidth(mSliderSize).withHeight(mLabelHeight),
-		FlexItem(mFBSlider).withWidth(mSliderSize).withHeight(mSliderSize)
+		createItem(mFBLabel, mSliderSize, mLabelHeight),
+		createItem(mFBSlider, mSliderSize, mSliderSize)
 		});
 	
 	// LFO FREQUENCY ======================
@@ -84,8 +84,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	lfoFreqBox.flexDirection = FlexBox::Direction::column;
 	lfoFreqBox.items.addArray(
 		{
-		FlexItem(mLFOFreqLabel).withWidth(mSliderSize).withHeight(mLabelHeight),
-		FlexItem(mLFOFreqSlider).withWidth(mSliderSize).withHeight(mSliderSize)
+		createItem(mLFOFreqLabel, mSliderSize, mLabelHeight),
+		createItem(mLFOFreqSlider, mSliderSize, mSliderSize)
 		});
 
 	// LFO FREQUENCY ======================
@@ -95,8 +95,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	lfoPhaseBox.flexDirection = FlexBox::Direction::column;
 	lfoPhaseBox.items.addArray(
 		{
-		FlexItem(mLFOPhaseLabel).withWidth(mSliderSize).withHeight(mLabelHeight),
-		FlexItem(mLFOPhaseSlider).withWidth(mSliderSize).withHeight(mSliderSize)
+		createItem(mLFOPhaseLabel, mSliderSize, mLabelHeight),
+		createItem(mLFOPhaseSlider, mSliderSize, mSliderSize)
 		});
 
 	// LFO WAVEFORM =======================
@@ -106,7 +106,7 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	lfoSelectBox.flexDirection = FlexBox::Direction::column;
 	lfoSelectBox.items.addArray(
 		{
-		FlexItem(mLFOWaveformBox).withWidth(mSliderSize).withHeight(mLabelHeight)
+		createItem(mLFOWaveformBox, mSliderSize, mLabelHeight)
 		});
 
 	FlexBox lfoWaveformBox;
@@ -115,8 +115,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	lfoWaveformBox.flexDirection = FlexBox::Direction::column;
 	lfoWaveformBox.items.addArray(
 		{
-		FlexItem(mLFOWaveformLabel).withWidth(mSliderSize).withHeight(25.f),
-		FlexItem(lfoSelectBox).withWidth(mSliderSize).withHeight(40.f)
+		createItem(mLFOWaveformLabel, mSliderSize, 25),
+		createItem(lfoSelectBox, mSliderSize, 40)
 		});
 
 	// First row of parameters in the plugin
@@ -126,9 +126,9 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	firstRowBox.flexDirection = FlexBox::Direction::row;
 	firstRowBox.items.addArray(
 		{
-			FlexItem(feedbackBox).withWidth(mSliderSize).withHeight(mSliderSize + 12.f),
-			FlexItem(wetBox).withWidth(mSliderSize+15.f).withHeight(mSliderSize + mLabelHeight),
-			FlexItem(delayBox).withWidth(mSliderSize).withHeight(mSliderSize + mLabelHeight)
+			createItem(feedbackBox, mSliderSize, mSliderSize + 12),
+			createItem(wetBox, mSliderSize + 15, mSliderSize + mLabelHeight),
+			createItem(delayBox, mSliderSize, mSliderSize + mLabelHeight)
 		});
 
 	// Second row (LFO) parameters of plugin
@@ -138,9 +138,9 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	secondRowBox.flexDirection = FlexBox::Direction::row;
 	secondRowBox.items.addArray(
 		{
-			FlexItem(lfoFreqBox).withWidth(mSliderSize).withHeight(mSliderSize + mLabelHeight),
-			FlexItem(lfoWaveformBox).withWidth(mSliderSize).withHeight(mSliderSize + mLabelHeight),
-			FlexItem(lfoPhaseBox).withWidth(mSliderSize).withHeight(mSliderSize + mLabelHeight)
+			createItem(lfoFreqBox, mSliderSize, mSliderSize + mLabelHeight),
+			createItem(lfoWaveformBox, mSliderSize, mSliderSize + mLabelHeight),
+			createItem(lfoPhaseBox, mSliderSize, mSliderSize + mLabelHeight)
 		});
 
 	// MASTER =============================
@@ -149,8 +149,8 @@ void FlangerVibratoAudioProcessorEditor::resized()
 	masterBox.justifyContent = FlexBox::JustifyContent::spaceBetween;
 	masterBox.flexDirection = FlexBox::Direction::column;
 	masterBox.items.addArray({
-			FlexItem(firstRowBox).withWidth(getWidth() - 2 * mReductionSize).withHeight(mSliderSize + mLabelHeight),
-			FlexItem(secondRowBox).withWidth(getWidth() - 2 * mReductionSize).withHeight(mSliderSize + mLabelHeight)
+			createItem(firstRowBox, getWidth() - 2 * mReductionSize, mSliderSize + mLabelHeight),
+			createItem(secondRowBox, getWidth() - 2 * mReductionSize, mSliderSize + mLabelHeight)
 		});
 	
 	auto area = getLocalBounds().reduced(mReductionSize, mReductionSize);
@@ -159,11 +159,23 @@ void FlangerVibratoAudioProcessorEditor::resized()
 }
 
 //==============================================================================
+FlexItem FlangerVibratoAudioProcessorEditor::createItem(Component & c, const int & width, const int & height)
+{
+	return FlexItem(c).withWidth(static_cast<float>(width)).withHeight(static_cast<float>(height));
+}
+
+//==============================================================================
+FlexItem FlangerVibratoAudioProcessorEditor::createItem(FlexBox & fb, const int & width, const int & height)
+{
+	return FlexItem(fb).withWidth(static_cast<float>(width)).withHeight(static_cast<float>(height));
+}
+
+//==============================================================================
 void FlangerVibratoAudioProcessorEditor::initialiseGUI()
 {
 	// ON / OFF ================================
 	mOnOffButton.setLookAndFeel(&mOnOffLookAndFeel);
-	mOnOffButton.setSize(100.f, 30.f);
+	mOnOffButton.setSize(100, 30);
 	mOnOffButton.setColour(TextButton::textColourOffId, Colours::white.darker(1));
 	mOnOffButton.setButtonText("VibraFlange");
 	mOnOffButton.addListener(this);
@@ -253,19 +265,19 @@ void FlangerVibratoAudioProcessorEditor::initialiseGUI()
 
 	// LFO WAVEFORM =============================
 	// Combo box
-	mLFOWaveformBox.setSize(mSliderSize, 25.f);
+	mLFOWaveformBox.setSize(mSliderSize, 25);
 	mLFOWaveformBox.addItem("Sine", 1);
 	mLFOWaveformBox.addItem("Saw", 2);
 	mLFOWaveformBox.addItem("Tri", 3);
 	mLFOWaveformBox.addItem("Sqare", 4);
-	int waveform = *mState.getRawParameterValue(IDs::lfoWaveform);
+	int waveform = static_cast<int>(*mState.getRawParameterValue(IDs::lfoWaveform));
 	mLFOWaveformBox.setSelectedId(waveform + 1);
 	mLFOWaveformAttachment.reset(new ComboBoxAttachment(mState, IDs::lfoWaveform, mLFOWaveformBox));
 	addAndMakeVisible(mLFOWaveformBox);
 
 	// Label
 	mLFOWaveformLabel.setText("LFO", dontSendNotification);
-	mLFOWaveformLabel.setSize(mSliderSize, 20.f);
+	mLFOWaveformLabel.setSize(mSliderSize, 20);
 	mLFOWaveformLabel.setFont(mLabelFont);
 	mLFOWaveformLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(mLFOWaveformLabel);

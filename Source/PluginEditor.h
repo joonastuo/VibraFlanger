@@ -32,6 +32,8 @@ public:
 
 private:
     //==============================================================================
+	FlexItem createItem(Component& c, const int& width, const int& height);
+	FlexItem createItem(FlexBox& fb, const int& width, const int& height);
 	void initialiseGUI();
 	void buttonClicked(Button* b) override;
 
@@ -48,12 +50,12 @@ private:
 	const int mLabelHeight   = 16;
 	const int mTextBoxHeight = 14;
 	const int mReductionSize = 20;
-	const int mTitlePanel    = 50.f;
-	const int mOnOffSize     = 18.f;
+	const int mTitlePanel    = 50;
+	const int mOnOffSize     = 18;
 	const int mVibraFlangeDialWidth = 120;
 	const int mTitleHeight = 60;
 
-	Font mLabelFont = Font(mLabelHeight, Font::plain);
+	Font mLabelFont = Font(static_cast<float>(mLabelHeight), Font::plain);
 	Colour mLFOColour = Colours::lightblue;
 	String mTitleText = "VibraFlange";
 	Font mTitleFont = Font(30.f, Font::plain);
